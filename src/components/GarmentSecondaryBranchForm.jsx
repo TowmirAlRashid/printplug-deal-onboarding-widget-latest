@@ -7,8 +7,14 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React from "react";
-import { Controller, useFormContext, useWatch } from "react-hook-form";
+import React, { useEffect } from "react";
+import {
+  Controller,
+  useFieldArray,
+  useFormContext,
+  useWatch,
+} from "react-hook-form";
+import GarmentTartiaryBranch from "./GarmentTartiaryBranch";
 
 const GarmentSecondaryBranchForm = ({
   index,
@@ -23,6 +29,37 @@ const GarmentSecondaryBranchForm = ({
     control,
     name: `products.${index}.primaryBranches.${branchIndex}.secondaryBranches.${secBranchIndex}.colorChange`,
   });
+
+  const numberOfPlacements = useWatch({
+    control,
+    name: `products.${index}.primaryBranches.${branchIndex}.secondaryBranches.${secBranchIndex}.numberOfPlacements`,
+  });
+
+  const {
+    fields: tartiaryBranches,
+    append,
+    remove,
+  } = useFieldArray({
+    control,
+    name: `products.${index}.primaryBranches.${branchIndex}.secondaryBranches.${secBranchIndex}.tartiaryBranches`,
+  });
+
+  useEffect(() => {
+    const num = parseInt(numberOfPlacements);
+    if (!isNaN(num) && num >= 0) {
+      const currentLength = tartiaryBranches.length;
+
+      if (num > currentLength) {
+        for (let i = currentLength; i < num; i++) {
+          append({ name: "" });
+        }
+      } else if (num < currentLength) {
+        for (let i = currentLength - 1; i >= num; i--) {
+          remove(i);
+        }
+      }
+    }
+  }, [numberOfPlacements]);
 
   return (
     <Box sx={{ width: "95%", mb: 2, float: "right" }}>
@@ -208,41 +245,41 @@ const GarmentSecondaryBranchForm = ({
 
       <Controller
         control={control}
-        name={`products.${index}.primaryBranches.${branchIndex}.secondaryBranches.${secBranchIndex}.placements`}
+        name={`products.${index}.primaryBranches.${branchIndex}.secondaryBranches.${secBranchIndex}.numberOfPlacements`}
         defaultValue=""
-        render={({ field }) => (
+        rules={{
+          validate: (value) => {
+            if (value === "") return true;
+            return parseInt(value) >= 0 || "Must be 0 or more";
+          },
+        }}
+        render={({ field, fieldState }) => (
           <TextField
-            multiline
-            rows={3}
-            size="small"
-            id="placements"
-            variant="outlined"
-            fullWidth
-            label="Placement(s)"
             {...field}
+            id="numberOfPlacements"
+            variant="outlined"
+            size="small"
+            fullWidth
+            label="Number of Placements"
+            type="number"
+            error={!!fieldState.error}
+            helperText={fieldState.error?.message}
             sx={{ mb: "1rem", mt: "5px" }}
           />
         )}
       />
 
-      <Controller
-        control={control}
-        name={`products.${index}.primaryBranches.${branchIndex}.secondaryBranches.${secBranchIndex}.sizeAndDimension`}
-        defaultValue=""
-        render={({ field }) => (
-          <TextField
-            multiline
-            rows={3}
-            size="small"
-            id="sizeAndDimension"
-            variant="outlined"
-            fullWidth
-            label="Size(s) & Dimension(s)"
-            {...field}
-            sx={{ mb: "1rem", mt: "5px" }}
-          />
-        )}
-      />
+      {tartiaryBranches?.map((_, tarBranchIndex) => (
+        <GarmentTartiaryBranch
+          key={`${index}-${branchIndex}-${secBranchIndex}-${tarBranchIndex}`}
+          index={index}
+          branchIndex={branchIndex}
+          secBranchIndex={secBranchIndex}
+          tarBranchIndex={tarBranchIndex}
+          options={options}
+          productName={productName}
+        />
+      ))}
     </Box>
   );
 };

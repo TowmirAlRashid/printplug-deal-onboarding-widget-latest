@@ -128,6 +128,8 @@ function App() {
     let content =
       "CONTACT INFO" +
       newLine +
+      "---------------------------" +
+      newLine +
       newLine +
       "Account Name: " +
       data?.contactInfo?.Account_Name +
@@ -156,6 +158,8 @@ function App() {
       newLine +
       "PRODUCT INFORMATION" +
       newLine +
+      "---------------------------" +
+      newLine +
       newLine +
       "Selected Product Types: " +
       data?.products?.map((product) => product?.productName)?.join(", ") +
@@ -171,6 +175,8 @@ function App() {
         ": " +
         productName +
         newLine +
+        "---------------------------" +
+        newLine +
         newLine;
 
       let productType = product?.productType;
@@ -178,6 +184,8 @@ function App() {
         content =
           content +
           "Garment & Graphic Information" +
+          newLine +
+          "---------------------------" +
           newLine +
           newLine +
           "Number of Garment Types: " +
@@ -192,6 +200,8 @@ function App() {
               "Garment " +
               (branchIndex + 1) +
               ":" +
+              newLine +
+              "---------------------------" +
               newLine +
               newLine +
               "Garment Type (Brand / Style): " +
@@ -218,6 +228,8 @@ function App() {
                     "Graphic " +
                     (subBranchIndex + 1) +
                     ":" +
+                    newLine +
+                    "---------------------------" +
                     newLine +
                     newLine +
                     "Graphic Description: " +
@@ -264,14 +276,34 @@ function App() {
                     subBranch?.fontsUsed +
                     newLine +
                     newLine +
-                    "Placement(s): " +
-                    subBranch?.placements +
-                    newLine +
-                    newLine +
-                    "Size(s) & Dimension(s): " +
-                    subBranch?.sizeAndDimension +
+                    "Number Of Placements: " +
+                    subBranch?.numberOfPlacements +
                     newLine +
                     newLine;
+
+                  if (Number(subBranch?.numberOfPlacements) > 0) {
+                    subBranch?.tartiaryBranches.forEach(
+                      (subSubBranch, subSubBranchIndex) => {
+                        content =
+                          content +
+                          "Placement " +
+                          (subSubBranchIndex + 1) +
+                          ":" +
+                          newLine +
+                          "---------------------------" +
+                          newLine +
+                          newLine +
+                          "Placement Location: " +
+                          subSubBranch?.placementLocation +
+                          newLine +
+                          newLine +
+                          "Size & Dimensions: " +
+                          subSubBranch?.sizeAndDimensions +
+                          newLine +
+                          newLine;
+                      }
+                    );
+                  }
                 }
               );
             }
@@ -317,6 +349,8 @@ function App() {
           content +
           "Graphic Information" +
           newLine +
+          "---------------------------" +
+          newLine +
           newLine +
           "Number of Graphics: " +
           product?.numberOfGraphics +
@@ -330,6 +364,8 @@ function App() {
               "Graphic " +
               (branchIndex + 1) +
               ": " +
+              newLine +
+              "---------------------------" +
               newLine +
               newLine +
               "Graphic Description: " +
@@ -435,6 +471,8 @@ function App() {
       content +
       "Other Information" +
       newLine +
+      "---------------------------" +
+      newLine +
       newLine +
       "Supplies / Materials Needed: " +
       data?.suppliesMaterialsNeeded +
@@ -446,6 +484,8 @@ function App() {
       newLine +
       newLine +
       "Turnaround Time" +
+      newLine +
+      "---------------------------" +
       newLine +
       newLine +
       "Does Customer Have A Hard Due Date?: " +
