@@ -214,6 +214,8 @@ function App() {
               newLine +
               "Graphic & Placement Information" +
               newLine +
+              "---------------------------" +
+              newLine +
               newLine +
               "Number of Graphics: " +
               branch?.numberOfGraphics +
@@ -469,7 +471,7 @@ function App() {
 
     content =
       content +
-      "Other Information" +
+      "OTHER INFORMATION" +
       newLine +
       "---------------------------" +
       newLine +
@@ -483,7 +485,7 @@ function App() {
       newLine +
       newLine +
       newLine +
-      "Turnaround Time" +
+      "TURNAROUND TIME" +
       newLine +
       "---------------------------" +
       newLine +
@@ -514,7 +516,7 @@ function App() {
     const response = await ZOHO.CRM.API.addNotes({
       Entity: entity,
       RecordID: entityId,
-      Title: "Deal Onboarding Form",
+      Title: "DEAL ONBOARDING FORM",
       Content: content,
     });
     console.log(response);
