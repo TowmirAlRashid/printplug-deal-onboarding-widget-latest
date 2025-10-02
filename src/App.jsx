@@ -613,7 +613,6 @@ function App() {
                 <Controller
                   control={control}
                   name="contactInfo.Account_Name"
-                  rules={{ required: true }}
                   defaultValue={recordData?.Account_Name?.name}
                   render={({ field }) => (
                     <TextField
@@ -623,7 +622,6 @@ function App() {
                       fullWidth
                       {...field}
                       label="Account Name"
-                      error={errors["contactInfo.Account_Name"]}
                     />
                   )}
                 />
@@ -631,7 +629,6 @@ function App() {
                 <Controller
                   control={control}
                   name="contactInfo.Deal_Name"
-                  rules={{ required: true }}
                   defaultValue={recordData?.Deal_Name}
                   render={({ field }) => (
                     <TextField
@@ -641,7 +638,6 @@ function App() {
                       fullWidth
                       {...field}
                       label="Deal Name"
-                      error={errors["contactInfo.Deal_Name"]}
                     />
                   )}
                 />
@@ -660,7 +656,6 @@ function App() {
                 <Controller
                   control={control}
                   name="contactInfo.Contact_Name"
-                  rules={{ required: true }}
                   defaultValue={recordData?.Contact_Name?.name}
                   render={({ field }) => (
                     <TextField
@@ -670,7 +665,6 @@ function App() {
                       fullWidth
                       {...field}
                       label="Contact Name"
-                      error={errors["contactInfo.Contact_Name"]}
                     />
                   )}
                 />
@@ -678,7 +672,6 @@ function App() {
                 <Controller
                   control={control}
                   name="contactInfo.Contact_Phone"
-                  rules={{ required: true }}
                   defaultValue={recordData?.Contact_Phone || ""}
                   render={({ field }) => (
                     <TextField
@@ -688,7 +681,6 @@ function App() {
                       fullWidth
                       {...field}
                       label="Contact Phone"
-                      error={errors["contactInfo.Contact_Phone"]}
                     />
                   )}
                 />
@@ -707,7 +699,6 @@ function App() {
                 <Controller
                   control={control}
                   name="contactInfo.Contact_Email"
-                  rules={{ required: true }}
                   defaultValue={recordData?.Contact_Email}
                   render={({ field }) => (
                     <TextField
@@ -717,7 +708,6 @@ function App() {
                       fullWidth
                       {...field}
                       label="Contact Email"
-                      error={errors["contactInfo.Contact_Email"]}
                     />
                   )}
                 />
@@ -725,7 +715,6 @@ function App() {
                 <Controller
                   control={control}
                   name="contactInfo.Sales_Person"
-                  rules={{ required: true }}
                   defaultValue={recordData?.Sales_Person || ""}
                   render={({ field }) => (
                     <TextField
@@ -735,7 +724,6 @@ function App() {
                       fullWidth
                       {...field}
                       label="Sales Person"
-                      error={errors["contactInfo.Sales_Person"]}
                     />
                   )}
                 />
@@ -992,7 +980,6 @@ function App() {
             <Controller
               control={control}
               name="hardDueDate"
-              rules={{ required: true }}
               defaultValue={"No"}
               render={({ field }) => (
                 <Autocomplete
@@ -1007,7 +994,6 @@ function App() {
                       {...params}
                       sx={{ mb: "0.8rem", mt: "5px" }}
                       label="Does Customer Have A Hard Due Date?"
-                      error={errors["hardDueDate"]}
                     />
                   )}
                 />
@@ -1025,7 +1011,6 @@ function App() {
                 <Controller
                   name={`dueDate`}
                   control={control}
-                  rules={{ required: true }}
                   render={({ field }) => (
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DatePicker
@@ -1056,7 +1041,6 @@ function App() {
             <Controller
               control={control}
               name="typicalMockup"
-              rules={{ required: true }}
               defaultValue={"No"}
               render={({ field }) => (
                 <Autocomplete
@@ -1071,7 +1055,6 @@ function App() {
                       {...params}
                       sx={{ mb: "0.8rem", mt: "5px" }}
                       label="Custmer Acknowledged 24-48 Hour Mock-Up?"
-                      error={errors["typicalMockup"]}
                     />
                   )}
                 />
@@ -1081,7 +1064,6 @@ function App() {
             <Controller
               control={control}
               name="businessDayTurnaround"
-              rules={{ required: true }}
               defaultValue={"No"}
               render={({ field }) => (
                 <Autocomplete
@@ -1096,7 +1078,6 @@ function App() {
                       {...params}
                       sx={{ mb: "0.8rem", mt: "5px" }}
                       label="Custmer Acknowledged 10-14 Business Day Turnaround?"
-                      error={errors["businessDayTurnaround"]}
                     />
                   )}
                 />
@@ -1106,7 +1087,6 @@ function App() {
             <Controller
               control={control}
               name="rushFee"
-              rules={{ required: true }}
               defaultValue={"No"}
               render={({ field }) => (
                 <Autocomplete
@@ -1121,7 +1101,6 @@ function App() {
                       {...params}
                       sx={{ mb: "0.8rem", mt: "5px" }}
                       label="Custmer Acknowledged Rush Fee If Needed Sooner?"
-                      error={errors["rushFee"]}
                     />
                   )}
                 />
