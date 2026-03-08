@@ -246,6 +246,22 @@ function App() {
                     subBranch?.currentGraphicFormat +
                     newLine +
                     newLine +
+                    "Fine Detail?: " +
+                    subBranch?.fineDetail +
+                    newLine +
+                    newLine;
+
+                  if (subBranch?.fineDetail === "Yes") {
+                    content =
+                      content +
+                      "Depending on current inventory, embroidery jobs with fine detail incur an upcharge for specialty thread: " +
+                      subBranch?.specialtyThread +
+                      newLine +
+                      newLine;
+                  }
+
+                  content =
+                    content +
                     "Upcharge Acknowledged?: " +
                     subBranch?.upchargeAcknowledged +
                     newLine +
@@ -254,7 +270,7 @@ function App() {
                     subBranch?.numberOfColorsUsed +
                     newLine +
                     newLine +
-                    "Colors Used: " +
+                    "Colors Used (Threads / PANTONES): " +
                     subBranch?.colorsUsed +
                     newLine +
                     newLine +
@@ -303,10 +319,10 @@ function App() {
                           subSubBranch?.sizeAndDimensions +
                           newLine +
                           newLine;
-                      }
+                      },
                     );
                   }
-                }
+                },
               );
             }
 
@@ -768,11 +784,11 @@ function App() {
 
                     const existingProductNames =
                       watch("products")?.map(
-                        (p) => p.productName + "#" + p.productType
+                        (p) => p.productName + "#" + p.productType,
                       ) || [];
 
                     const newProductsToAdd = newValue.filter(
-                      (val) => !existingProductNames.includes(val)
+                      (val) => !existingProductNames.includes(val),
                     );
 
                     // Add split product info
@@ -783,14 +799,14 @@ function App() {
 
                     // Remove deselected items
                     const removed = existingProductNames.filter(
-                      (pt) => !newValue.includes(pt)
+                      (pt) => !newValue.includes(pt),
                     );
                     removed.forEach((pt) => {
                       const [productName, productType] = pt.split("#");
                       const indexToRemove = watch("products")?.findIndex(
                         (p) =>
                           p.productName === productName &&
-                          p.productType === productType
+                          p.productType === productType,
                       );
                       if (indexToRemove !== -1) remove(indexToRemove);
                     });
@@ -838,7 +854,7 @@ function App() {
                         const currentSelection = watch("productSelector") || [];
                         const toRemove = `${productName}#${productType}`;
                         const updatedSelection = currentSelection.filter(
-                          (v) => v !== toRemove
+                          (v) => v !== toRemove,
                         );
                         setValue("productSelector", updatedSelection);
                         remove(index);
@@ -931,7 +947,7 @@ function App() {
                   const files = Array.from(e.target.files);
                   const totalSize = files.reduce(
                     (acc, file) => acc + file.size,
-                    0
+                    0,
                   );
 
                   if (totalSize > 15 * 1024 * 1024) {

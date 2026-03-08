@@ -30,6 +30,11 @@ const GarmentSecondaryBranchForm = ({
     name: `products.${index}.primaryBranches.${branchIndex}.secondaryBranches.${secBranchIndex}.colorChange`,
   });
 
+  const fineDetail = useWatch({
+    control,
+    name: `products.${index}.primaryBranches.${branchIndex}.secondaryBranches.${secBranchIndex}.fineDetail`,
+  });
+
   const numberOfPlacements = useWatch({
     control,
     name: `products.${index}.primaryBranches.${branchIndex}.secondaryBranches.${secBranchIndex}.numberOfPlacements`,
@@ -127,6 +132,49 @@ const GarmentSecondaryBranchForm = ({
         )}
       />
 
+      {/* adding new option */}
+      <Controller
+        control={control}
+        name={`products.${index}.primaryBranches.${branchIndex}.secondaryBranches.${secBranchIndex}.fineDetail`}
+        defaultValue=""
+        render={({ field }) => (
+          <Autocomplete
+            {...field}
+            options={["Yes", "No"]}
+            value={field.value || ""}
+            onChange={(e, newValue) => field.onChange(newValue)}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Fine Detail?"
+                variant="outlined"
+                size="small"
+                fullWidth
+                sx={{ mb: "1rem", mt: "5px" }}
+              />
+            )}
+          />
+        )}
+      />
+
+      {fineDetail === "Yes" && (
+        <Box>
+          <Controller
+            name={`products.${index}.primaryBranches.${branchIndex}.secondaryBranches.${secBranchIndex}.specialtyThread`}
+            control={control}
+            defaultValue={false} // Set the default value of the checkbox
+            render={({ field }) => (
+              <FormGroup>
+                <FormControlLabel
+                  control={<Checkbox {...field} />}
+                  label="Depending on current inventory, embroidery jobs with fine detail incur an upcharge for specialty thread"
+                />
+              </FormGroup>
+            )}
+          />
+        </Box>
+      )}
+
       <Box>
         <Controller
           name={`products.${index}.primaryBranches.${branchIndex}.secondaryBranches.${secBranchIndex}.upchargeAcknowledged`}
@@ -172,7 +220,7 @@ const GarmentSecondaryBranchForm = ({
             id="colorsUsed"
             variant="outlined"
             fullWidth
-            label="Colors Used"
+            label="Colors Used (Threads / PANTONES)"
             {...field}
             sx={{ mb: "1rem", mt: "5px" }}
           />
