@@ -394,6 +394,14 @@ function App() {
               branch?.isGraphicPrintReady +
               newLine +
               newLine +
+              "Number of Colors Used: " +
+              branch?.numberOfColorsUsed +
+              newLine +
+              newLine +
+              "Colors Used: " +
+              branch?.colorsUsed +
+              newLine +
+              newLine +
               "Current Graphic Format: " +
               branch?.currentGraphicFormat +
               newLine +

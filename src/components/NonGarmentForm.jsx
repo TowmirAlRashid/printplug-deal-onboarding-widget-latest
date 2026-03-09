@@ -141,6 +141,42 @@ const NonGarmentForm = ({ index }) => {
 
           <Controller
             control={control}
+            name={`products.${index}.branches.${branchIndex}.numberOfColorsUsed`}
+            defaultValue=""
+            render={({ field }) => (
+              <TextField
+                id="numberOfColorsUsed"
+                variant="outlined"
+                size="small"
+                fullWidth
+                label="Number of Colors Used"
+                {...field}
+                sx={{ mt: "5px", mb: 1 }}
+              />
+            )}
+          />
+
+          <Controller
+            control={control}
+            name={`products.${index}.branches.${branchIndex}.colorsUsed`}
+            defaultValue=""
+            render={({ field }) => (
+              <TextField
+                multiline
+                rows={3}
+                size="small"
+                id="colorsUsed"
+                variant="outlined"
+                fullWidth
+                label="Colors Used"
+                {...field}
+                sx={{ mt: "5px", mb: 1 }}
+              />
+            )}
+          />
+
+          <Controller
+            control={control}
             name={`products.${index}.branches.${branchIndex}.currentGraphicFormat`}
             defaultValue=""
             render={({ field }) => (
