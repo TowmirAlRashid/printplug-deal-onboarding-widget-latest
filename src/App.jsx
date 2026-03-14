@@ -111,6 +111,11 @@ function App() {
     name: `doProductsNeedShipped`,
   });
 
+  const discountsForExtendedTurnaround = useWatch({
+    control,
+    name: `discountsForExtendedTurnaround`,
+  });
+
   const customDate = (date) => {
     const dateObj = new Date(date);
     let year = dateObj.getFullYear();
@@ -713,10 +718,28 @@ function App() {
     if (data?.hardDueDate === "No") {
       content =
         content +
-        "Offered Discounts for Extended Turnaround Time?: " +
-        data?.offeredDiscountsForExtendedTurnaround +
+        "Discounts for Extended Turnaround Time?: " +
+        data?.discountsForExtendedTurnaround +
         newLine +
         newLine;
+
+      if (data?.discountsForExtendedTurnaround === "Yes") {
+        content =
+          content +
+          "Add 1 Week To Production Time?: " +
+          data?.addOneWeekToProductionTime +
+          newLine +
+          newLine;
+      }
+
+      if (data?.discountsForExtendedTurnaround === "No") {
+        content =
+          content +
+          "10-14 Business Day Turnaround?: " +
+          data?.tenFourteenBusinessDayTurnaround +
+          newLine +
+          newLine;
+      }
     }
 
     content =
@@ -1402,19 +1425,63 @@ function App() {
             )}
 
             {hardDueDate === "No" && (
-              <Controller
-                control={control}
-                name="offeredDiscountsForExtendedTurnaround"
-                defaultValue={false}
-                render={({ field }) => (
-                  <FormGroup>
-                    <FormControlLabel
-                      control={<Checkbox {...field} />}
-                      label="Offered Discounts for Extended Turnaround Time?"
+              <>
+                <Controller
+                  control={control}
+                  name="discountsForExtendedTurnaround"
+                  defaultValue={""}
+                  render={({ field }) => (
+                    <Autocomplete
+                      {...field}
+                      options={["Yes", "No"]}
+                      value={field.value || ""}
+                      onChange={(_, newValue) => field.onChange(newValue)}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label="Discounts for Extended Turnaround Time?"
+                          variant="outlined"
+                          size="small"
+                          fullWidth
+                          sx={{ mb: "1rem", mt: "5px" }}
+                        />
+                      )}
                     />
-                  </FormGroup>
+                  )}
+                />
+
+                {discountsForExtendedTurnaround === "Yes" && (
+                  <Controller
+                    control={control}
+                    name="addOneWeekToProductionTime"
+                    defaultValue={false}
+                    render={({ field }) => (
+                      <FormGroup>
+                        <FormControlLabel
+                          control={<Checkbox {...field} />}
+                          label="Add 1 Week To Production Time"
+                        />
+                      </FormGroup>
+                    )}
+                  />
                 )}
-              />
+
+                {discountsForExtendedTurnaround === "No" && (
+                  <Controller
+                    control={control}
+                    name="tenFourteenBusinessDayTurnaround"
+                    defaultValue={false}
+                    render={({ field }) => (
+                      <FormGroup>
+                        <FormControlLabel
+                          control={<Checkbox {...field} />}
+                          label="10-14 Business Day Turnaround"
+                        />
+                      </FormGroup>
+                    )}
+                  />
+                )}
+              </>
             )}
 
             <Controller
