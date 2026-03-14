@@ -2,6 +2,9 @@ import {
   Autocomplete,
   Box,
   Button,
+  Checkbox,
+  FormControlLabel,
+  FormGroup,
   FormLabel,
   TextField,
   Typography,
@@ -14,6 +17,7 @@ import { useFieldArray } from "react-hook-form";
 import GarmentForm from "./components/GarmentForm";
 import NonGarmentForm from "./components/NonGarmentForm";
 import GraphicForm from "./components/GraphicForm";
+import OnlineStorefrontForm from "./components/OnlineStorefrontForm";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
@@ -100,6 +104,11 @@ function App() {
   const hardDueDate = useWatch({
     control,
     name: `hardDueDate`,
+  });
+
+  const doProductsNeedShipped = useWatch({
+    control,
+    name: `doProductsNeedShipped`,
   });
 
   const customDate = (date) => {
@@ -450,6 +459,143 @@ function App() {
           newLine +
           newLine +
           newLine;
+      } else if (productType === "onlinestorefront") {
+        content =
+          content +
+          "Online Storefront Information" +
+          newLine +
+          "---------------------------" +
+          newLine +
+          newLine +
+          "Preferred Online Suffix: " +
+          product?.preferredOnlineSuffix +
+          newLine +
+          newLine +
+          "Contact Phone # for Storefront: " +
+          product?.contactPhoneForStorefront +
+          newLine +
+          newLine +
+          "Contact Email for Storefront: " +
+          product?.contactEmailForStorefront +
+          newLine +
+          newLine +
+          "Specific Products on Storefront: " +
+          product?.specificProductsOnStorefront +
+          newLine +
+          newLine +
+          "Print Applications for Products: " +
+          product?.printApplicationsForProducts?.join(", ") +
+          newLine +
+          newLine +
+          "Are Your Graphics Print-Ready?: " +
+          product?.areGraphicsPrintReady +
+          newLine +
+          newLine;
+
+        if (product?.areGraphicsPrintReady === "No") {
+          content =
+            content +
+            "Upcharge for Graphic Design?: " +
+            product?.upchargeForGraphicDesign +
+            newLine +
+            newLine;
+        }
+
+        content =
+          content +
+          "Do You Have a Desired Live Date?: " +
+          product?.desiredLiveDate +
+          newLine +
+          newLine;
+
+        if (product?.desiredLiveDate === "Yes") {
+          content =
+            content +
+            "Storefront Live Date: " +
+            customDate(product?.storefrontLiveDate) +
+            newLine +
+            newLine;
+        }
+
+        content =
+          content +
+          "Is the Storefront Temporary or Evergreen?: " +
+          product?.isStorefrontTemporaryOrEvergreen +
+          newLine +
+          newLine;
+
+        if (product?.isStorefrontTemporaryOrEvergreen === "Yes") {
+          content =
+            content +
+            "Storefront End Date: " +
+            customDate(product?.storefrontEndDate) +
+            newLine +
+            newLine;
+        }
+
+        content =
+          content +
+          "Mark Up Products?: " +
+          product?.markUpProducts +
+          newLine +
+          newLine;
+
+        if (product?.markUpProducts === "Yes") {
+          content =
+            content +
+            "Percentage to Mark Up: " +
+            product?.percentageToMarkUp +
+            newLine +
+            newLine;
+        }
+
+        content =
+          content +
+          "Do You Want Your Products to Be Customizable?: " +
+          product?.productsCustomizable +
+          newLine +
+          newLine +
+          "Are There Any Custom Fields or Notes You Would Like on Your Page?: " +
+          product?.customFieldsOrNotes +
+          newLine +
+          newLine;
+
+        if (product?.customFieldsOrNotes === "Yes") {
+          content =
+            content +
+            "Please List Special Fields: " +
+            product?.pleaseListSpecialFields +
+            newLine +
+            newLine;
+        }
+
+        content =
+          content +
+          "How Would You Like To Fulfill Orders?: " +
+          product?.howToFulfillOrders?.join(", ") +
+          newLine +
+          newLine +
+          "Would You Like To Include Any Other Links On Your Storefront?: " +
+          product?.anyOtherLinks +
+          newLine +
+          newLine;
+
+        if (product?.anyOtherLinks === "Yes") {
+          content =
+            content +
+            "Please Provide Links: " +
+            product?.pleaseProvideLinks +
+            newLine +
+            newLine;
+        }
+
+        content =
+          content +
+          "Do You Have any Banners or Graphics You Want Displayed on Your Website?: " +
+          product?.bannersOrGraphics +
+          newLine +
+          newLine +
+          newLine;
       } else if (productType === "graphic") {
         content =
           content +
@@ -508,6 +654,38 @@ function App() {
       data?.specialInstructions +
       newLine +
       newLine +
+      "Is This a Repeat Order?: " +
+      data?.isRepeatOrder +
+      newLine +
+      newLine +
+      "Do Products Need Shipped?: " +
+      data?.doProductsNeedShipped +
+      newLine +
+      newLine;
+
+    if (data?.doProductsNeedShipped === "Yes") {
+      content =
+        content +
+        "Shipping Contact & Address: " +
+        data?.shippingContactAddress +
+        newLine +
+        newLine +
+        "Other Shipping Details: " +
+        data?.otherShippingDetails +
+        newLine +
+        newLine;
+    }
+
+    content =
+      content +
+      "Customer Consents to Email and Text?: " +
+      data?.customerConsentsToEmailAndText +
+      newLine +
+      newLine +
+      "Round up for Charity?: " +
+      data?.roundUpForCharity +
+      newLine +
+      newLine +
       newLine +
       "TURNAROUND TIME" +
       newLine +
@@ -521,21 +699,30 @@ function App() {
 
     if (data?.hardDueDate === "Yes") {
       content =
-        content + "Due Date: " + customDate(data?.dueDate) + newLine + newLine;
+        content +
+        "Due Date: " +
+        customDate(data?.dueDate) +
+        newLine +
+        newLine +
+        "Upcharged For Rush Turnaround Time?: " +
+        data?.upchargedForRushTurnaround +
+        newLine +
+        newLine;
+    }
+
+    if (data?.hardDueDate === "No") {
+      content =
+        content +
+        "Offered Discounts for Extended Turnaround Time?: " +
+        data?.offeredDiscountsForExtendedTurnaround +
+        newLine +
+        newLine;
     }
 
     content =
       content +
       "Custmer Acknowledged 24-48 Hour Mock-Up?: " +
-      data?.typicalMockup +
-      newLine +
-      newLine +
-      "Custmer Acknowledged 10-14 Business Day Turnaround?: " +
-      data?.businessDayTurnaround +
-      newLine +
-      newLine +
-      "Custmer Acknowledged Rush Fee If Needed Sooner?: " +
-      data?.rushFee;
+      data?.typicalMockup;
     // go for API call
     const response = await ZOHO.CRM.API.addNotes({
       Entity: entity,
@@ -885,6 +1072,10 @@ function App() {
                   )}
 
                   {productType === "graphic" && <GraphicForm index={index} />}
+
+                  {productType === "onlinestorefront" && (
+                    <OnlineStorefrontForm index={index} />
+                  )}
                 </Box>
               );
             })}
@@ -933,6 +1124,139 @@ function App() {
                   label="Special Instructions"
                   {...field}
                   sx={{ mb: "1rem", mt: "5px" }}
+                />
+              )}
+            />
+
+            <Controller
+              control={control}
+              name="isRepeatOrder"
+              defaultValue={"No"}
+              render={({ field }) => (
+                <Autocomplete
+                  {...field}
+                  id="isRepeatOrder"
+                  size="small"
+                  options={["Yes", "No"]}
+                  getOptionLabel={(option) => option}
+                  onChange={(_, data) => field.onChange(data)}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      sx={{ mb: "0.8rem", mt: "5px" }}
+                      label="Is This a Repeat Order?"
+                    />
+                  )}
+                />
+              )}
+            />
+
+            <Controller
+              control={control}
+              name="doProductsNeedShipped"
+              defaultValue={"No"}
+              render={({ field }) => (
+                <Autocomplete
+                  {...field}
+                  id="doProductsNeedShipped"
+                  size="small"
+                  options={["Yes", "No"]}
+                  getOptionLabel={(option) => option}
+                  onChange={(_, data) => field.onChange(data)}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      sx={{ mb: "0.8rem", mt: "5px" }}
+                      label="Do Products Need Shipped?"
+                    />
+                  )}
+                />
+              )}
+            />
+
+            {doProductsNeedShipped === "Yes" && (
+              <>
+                <Controller
+                  control={control}
+                  name="shippingContactAddress"
+                  defaultValue=""
+                  render={({ field }) => (
+                    <TextField
+                      multiline
+                      rows={3}
+                      size="small"
+                      id="shippingContactAddress"
+                      variant="outlined"
+                      fullWidth
+                      label="Shipping Contact & Address"
+                      {...field}
+                      sx={{ mb: "1rem", mt: "5px" }}
+                    />
+                  )}
+                />
+                <Controller
+                  control={control}
+                  name="otherShippingDetails"
+                  defaultValue=""
+                  render={({ field }) => (
+                    <TextField
+                      multiline
+                      rows={3}
+                      size="small"
+                      id="otherShippingDetails"
+                      variant="outlined"
+                      fullWidth
+                      label="Other Shipping Details"
+                      {...field}
+                      sx={{ mb: "1rem", mt: "5px" }}
+                    />
+                  )}
+                />
+              </>
+            )}
+
+            <Controller
+              control={control}
+              name="customerConsentsToEmailAndText"
+              defaultValue={"No"}
+              render={({ field }) => (
+                <Autocomplete
+                  {...field}
+                  id="customerConsentsToEmailAndText"
+                  size="small"
+                  options={["Yes", "No"]}
+                  getOptionLabel={(option) => option}
+                  onChange={(_, data) => field.onChange(data)}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      sx={{ mb: "0.8rem", mt: "5px" }}
+                      label="Customer Consents to Email and Text?"
+                    />
+                  )}
+                />
+              )}
+            />
+
+            <Controller
+              control={control}
+              name="roundUpForCharity"
+              defaultValue={"No"}
+              render={({ field }) => (
+                <Autocomplete
+                  {...field}
+                  id="roundUpForCharity"
+                  size="small"
+                  options={["Yes", "No"]}
+                  getOptionLabel={(option) => option}
+                  onChange={(_, data) => field.onChange(data)}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      sx={{ mb: "0.8rem", mt: "5px" }}
+                      label="Round up for Charity?"
+                    />
+                  )}
                 />
               )}
             />
@@ -1004,7 +1328,7 @@ function App() {
             <Controller
               control={control}
               name="hardDueDate"
-              defaultValue={"No"}
+              defaultValue={""}
               render={({ field }) => (
                 <Autocomplete
                   {...field}
@@ -1025,41 +1349,72 @@ function App() {
             />
 
             {hardDueDate === "Yes" && (
-              <Box sx={{ mb: "1rem" }}>
-                <FormLabel
-                  id="date"
-                  sx={{ mb: "10px", color: "black", display: "block" }}
-                >
-                  Due Date
-                </FormLabel>
+              <>
+                <Box sx={{ mb: "1rem" }}>
+                  <FormLabel
+                    id="date"
+                    sx={{ mb: "10px", color: "black", display: "block" }}
+                  >
+                    Due Date
+                  </FormLabel>
+                  <Controller
+                    name={`dueDate`}
+                    control={control}
+                    render={({ field }) => (
+                      <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DatePicker
+                          onChange={(newValue) =>
+                            field.onChange(dayjs(newValue).format("YYYY/MM/DD"))
+                          }
+                          {...field}
+                          renderInput={(params) => (
+                            <TextField
+                              id="dueDate"
+                              variant="outlined"
+                              type="date"
+                              sx={{
+                                "& .MuiInputBase-root": {
+                                  height: "2.3rem !important",
+                                },
+                              }}
+                              {...params}
+                            />
+                          )}
+                        />
+                      </LocalizationProvider>
+                    )}
+                  />
+                </Box>
                 <Controller
-                  name={`dueDate`}
                   control={control}
+                  name="upchargedForRushTurnaround"
+                  defaultValue={false}
                   render={({ field }) => (
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DatePicker
-                        onChange={(newValue) =>
-                          field.onChange(dayjs(newValue).format("YYYY/MM/DD"))
-                        }
-                        {...field}
-                        renderInput={(params) => (
-                          <TextField
-                            id="dueDate"
-                            variant="outlined"
-                            type="date"
-                            sx={{
-                              "& .MuiInputBase-root": {
-                                height: "2.3rem !important",
-                              },
-                            }}
-                            {...params}
-                          />
-                        )}
+                    <FormGroup>
+                      <FormControlLabel
+                        control={<Checkbox {...field} />}
+                        label="Upcharged For Rush Turnaround Time?"
                       />
-                    </LocalizationProvider>
+                    </FormGroup>
                   )}
                 />
-              </Box>
+              </>
+            )}
+
+            {hardDueDate === "No" && (
+              <Controller
+                control={control}
+                name="offeredDiscountsForExtendedTurnaround"
+                defaultValue={false}
+                render={({ field }) => (
+                  <FormGroup>
+                    <FormControlLabel
+                      control={<Checkbox {...field} />}
+                      label="Offered Discounts for Extended Turnaround Time?"
+                    />
+                  </FormGroup>
+                )}
+              />
             )}
 
             <Controller
@@ -1085,51 +1440,6 @@ function App() {
               )}
             />
 
-            <Controller
-              control={control}
-              name="businessDayTurnaround"
-              defaultValue={"No"}
-              render={({ field }) => (
-                <Autocomplete
-                  {...field}
-                  id="businessDayTurnaround"
-                  size="small"
-                  options={["Yes", "No"]}
-                  getOptionLabel={(option) => option}
-                  onChange={(_, data) => field.onChange(data)}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      sx={{ mb: "0.8rem", mt: "5px" }}
-                      label="Custmer Acknowledged 10-14 Business Day Turnaround?"
-                    />
-                  )}
-                />
-              )}
-            />
-
-            <Controller
-              control={control}
-              name="rushFee"
-              defaultValue={"No"}
-              render={({ field }) => (
-                <Autocomplete
-                  {...field}
-                  id="rushFee"
-                  size="small"
-                  options={["Yes", "No"]}
-                  getOptionLabel={(option) => option}
-                  onChange={(_, data) => field.onChange(data)}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      sx={{ mb: "0.8rem", mt: "5px" }}
-                      label="Custmer Acknowledged Rush Fee If Needed Sooner?"
-                    />
-                  )}
-                />
-              )}
-            />
 
             {/* <Button
               type="submit"
